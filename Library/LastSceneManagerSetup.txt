@@ -1,7 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Voxel Terrain.unity
-  isLoaded: 0
-  isActive: 0
-- path: Assets/Voxel/scene.unity
+- path: Assets/Scenes/Map.unity
   isLoaded: 1
   isActive: 1

@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour {
         //Add it to the current position
         this.transform.position += movement;
 
-        if (horizontal > 0) {
+       if (horizontal > 0) {
             anim.SetInteger("State", -1);
             if (horizontal == 0)
                 anim.SetInteger("State", 5);
@@ -51,45 +51,45 @@ public class Movement : MonoBehaviour {
             anim.SetInteger("State", 0);
         }
 
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //See the difference?
-//        //if(Input.GetAxis("Horizontal")) This can be used instead of GetKey, as it allows you to change the keys in Unity.
-//		if (Input.GetKey (KeyCode.W)) 
-//		{    
-//			transform.position += new Vector3 (0.0f, speed * Time.deltaTime, 0.0f);
-//			anim.SetInteger ("State", 2);
-//		}
-//		if (Input.GetKey (KeyCode.S)) 
-//		{  
-//			transform.position -= new Vector3 (0.0f, speed * Time.deltaTime, 0.0f);
-//			anim.SetInteger ("State", 6);
-//		}
-//		if (Input.GetKey (KeyCode.D)) 
-//		{
-//			transform.position += new Vector3 (speed * Time.deltaTime, 0.0f, 0.0f);
-//			anim.SetInteger ("State", -1);
-//		}
-//		if (Input.GetKey (KeyCode.A)) 
-//		{
-//			transform.position -= new Vector3 (speed * Time.deltaTime, 0.0f, 0.0f);
-//			anim.SetInteger ("State", 4);
-//		}
-	}
+        //        //if(Input.GetAxis("Horizontal")) This can be used instead of GetKey, as it allows you to change the keys in Unity.
+        //		if (Input.GetKey (KeyCode.W)) 
+        //		{    
+        //			transform.position += new Vector3 (0.0f, speed * Time.deltaTime, 0.0f);
+        //			anim.SetInteger ("State", 2);
+        //		}
+        //		if (Input.GetKey (KeyCode.S)) 
+        //		{  
+        //			transform.position -= new Vector3 (0.0f, speed * Time.deltaTime, 0.0f);
+        //			anim.SetInteger ("State", 6);
+        //		}
+        //		if (Input.GetKey (KeyCode.D)) 
+        //		{
+        //			transform.position += new Vector3 (speed * Time.deltaTime, 0.0f, 0.0f);
+        //			anim.SetInteger ("State", -1);
+        //		}
+        //		if (Input.GetKey (KeyCode.A)) 
+        //		{
+        //			transform.position -= new Vector3 (speed * Time.deltaTime, 0.0f, 0.0f);
+        //			anim.SetInteger ("State", 4);
+        //		}
+    }
 }
