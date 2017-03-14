@@ -1,14 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
+[Serializable]
 public class Location {
 
-    private int x;
-    private int y;
-    private int z;
+    public World world;
 
-    public Location(int x, int y, int z) {
+    public int x;
+    public int y;
+    public int z;
+
+    public Location(World world, int x, int y, int z) {
 
         this.x = x;
         this.y = y;
@@ -16,12 +18,24 @@ public class Location {
 
     }
 
-    public Location(Vector3 position) {
+    public Location(World world, Vector3 position) {
 
         this.x = Mathf.FloorToInt(position.x);
         this.y = Mathf.FloorToInt(position.y);
         this.z = Mathf.FloorToInt(position.z);
 
+    }
+
+    public Location(Location location) {
+        setLocation(location);
+    }
+
+    public virtual World getWorld() {
+        return this.world;
+    }
+
+    public virtual void setWorld(World world) {
+        this.world = world;
     }
 
     public virtual int getX() {
@@ -46,6 +60,15 @@ public class Location {
 
     public virtual void setZ(int z) {
         this.z = z;
+    }
+
+    public virtual void setLocation(Location location) {
+
+        setWorld(location.getWorld());
+        setX(location.getX());
+        setY(location.getY());
+        setZ(location.getZ());
+
     }
 
     public virtual Vector3 asTransform() {

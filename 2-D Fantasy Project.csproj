@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -87,20 +89,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Map\Biome.cs" />
+    <Compile Include="Assets\Scripts\Events\Event.cs" />
+    <Compile Include="Assets\Scripts\Events\EventHandler.cs" />
+    <Compile Include="Assets\Scripts\Events\ICancellable.cs" />
+    <Compile Include="Assets\Scripts\Events\NewMonoBehaviour.cs" />
     <Compile Include="Assets\Scripts\Map\Blocks\Air.cs" />
     <Compile Include="Assets\Scripts\Map\Blocks\Block.cs" />
+    <Compile Include="Assets\Scripts\Map\Blocks\BlockType.cs" />
+    <Compile Include="Assets\Scripts\Map\Blocks\Grass.cs" />
+    <Compile Include="Assets\Scripts\Map\Blocks\Netherrack.cs" />
+    <Compile Include="Assets\Scripts\Map\Blocks\Sand.cs" />
+    <Compile Include="Assets\Scripts\Map\Blocks\Stone.cs" />
+    <Compile Include="Assets\Scripts\Map\Blocks\Trees\OakLeaves.cs" />
+    <Compile Include="Assets\Scripts\Map\Blocks\Trees\OakLog.cs" />
     <Compile Include="Assets\Scripts\Map\Chunks\Chunk.cs" />
     <Compile Include="Assets\Scripts\Map\Chunks\ChunkColumn.cs" />
-    <Compile Include="Assets\Scripts\Map\GeneratorData.cs" />
+    <Compile Include="Assets\Scripts\Map\Locations\ChunkLocation.cs" />
+    <Compile Include="Assets\Scripts\Map\Locations\Direction.cs" />
     <Compile Include="Assets\Scripts\Map\Locations\Location.cs" />
-    <Compile Include="Assets\Scripts\Map\Noise.cs" />
-    <Compile Include="Assets\Scripts\Map\NoiseGenerator.cs" />
-    <Compile Include="Assets\Scripts\Map\TerrainGen.cs" />
-    <Compile Include="Assets\Scripts\Map\TerrainGenerator.cs" />
-    <Compile Include="Assets\Scripts\Player\Health.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\Biomes\Biome.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\Biomes\HillsBiome.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\Biomes\NetherBiome.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\GeneratorData.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\Noise.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\NoiseGenerator.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\TerrainGen.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\TerrainGenerator.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\Trees\Oak.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\Trees\Tree.cs" />
+    <Compile Include="Assets\Scripts\Map\Terrain Generation\Trees\TreeTypes.cs" />
+    <Compile Include="Assets\Scripts\Map\World.cs" />
+    <Compile Include="Assets\Scripts\Map\WorldObject.cs" />
     <Compile Include="Assets\Scripts\Player\Movement.cs" />
     <Compile Include="Assets\Scripts\Player\ZoomControl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Scripts\Events\TEST.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -1,49 +1,61 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //The base class to describe all blocks in the game
 [Serializable]
-public class Block {
+public class Block : Location {
 
-    //The size of the block, relative to unity coordinates
-    public static float blockSize = 1f;
+    //public Location location;
 
-    //It's location in the world
-    public Location location;
-    //The texture of the block
-    public SpriteRenderer sprite;
+    public bool destructable = true;
+    public bool renderable = false;
+    public bool solid = false;
 
-	public Block(Location location) {
+    public BlockType blockType = BlockType.BLOCK;
+    public Sprite blockSprite = new Sprite();
 
-        this.location = location;
-        //sprite = GetComponent<SpriteRenderer>();
+    public string spriteName;
+
+	public Block(Location location) : base(location) {
+
+        //this.location = location;
 
     }
 
-    //private void Start() {
-
-    //sprite = GetComponent<SpriteRenderer>();
-    //Debug.Log(sprite.sprite);
-
+    //public World getWorld() {
+    //    return getLocation().getWorld();
     //}
 
-    //Get the location of the block
-    public virtual Location getLocation() {
-        return this.location;
-    }
+    //public Location getLocation() {
+    //    return this.location;
+    //}
 
     //Solid decides whether or not the player can walk through the block
     public virtual bool isSolid() {
-        return false;
+        return solid;
     }
 
     //Whether or not the block can be destroyed in the game,
     //by default all blocks can be destroyed
     public virtual bool isDestructable() {
-        return true;
+        return destructable;
     }
 
+    public virtual bool isRenderable() {
+        return renderable;
+    }
+
+    public virtual Sprite getSprite(Direction direction) {
+
+        //spriteName += "_" + direction.ToString(); 
+
+        Sprite sprite = Resources.Load<Sprite>(spriteName);
+        return sprite;
+
+    }
+
+    public virtual BlockType getBlockType() {
+        return blockType;
+    }
 
 }
