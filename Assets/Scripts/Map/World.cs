@@ -20,8 +20,8 @@ public class World : MonoBehaviour {
 
         TerrainGenerator terrainGenerator = new TerrainGenerator(this, hills);
 
-        for(int i = 0; i < 16; i++) {
-            for(int j = 0; j < 8; j++) {
+        for(int i = 0; i < 4; i++) {
+            for(int j = 0; j < 4; j++) {
                 ChunkLocation chunkLocation = new ChunkLocation(this, i, j, 0);
                 Chunk chunk = terrainGenerator.generateChunk(chunkLocation, Direction.NORTH);
                 chunk.transform.parent = transform.parent;
