@@ -4,10 +4,6 @@ public class WorldObject : MonoBehaviour {
 
     private Location location;
 
-    //public WorldObject() {
-
-    //}
-
     public void initialise(Location location) {
 
         this.location = location;
