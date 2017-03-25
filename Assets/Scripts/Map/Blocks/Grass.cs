@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-
-public class Grass : Block {
-
+﻿public class Grass : Block {
+    //The desctiptions are self explanatory
     public Grass(Location location) : base(location) {
 
         this.solid = true;
