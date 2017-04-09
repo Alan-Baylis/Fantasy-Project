@@ -7,16 +7,20 @@ public class WorldObject : MonoBehaviour {
     private Location location;
 
     //Apply the location to the GameObject and save it once loaded
-    public void initialise(Location location) {
+    public virtual void initialise(Location location) {
 
         this.location = location;
-        transform.position = location.asTransform();
+        transform.position = location.getPosition();
 
     }
 
     //Getters for various aspects of the WorldObject
     public virtual World getWorld() {
         return getLocation().getWorld();
+    }
+
+    public virtual GameObject getGameObject() {
+        return transform.gameObject;
     }
 
     public virtual Location getLocation() {

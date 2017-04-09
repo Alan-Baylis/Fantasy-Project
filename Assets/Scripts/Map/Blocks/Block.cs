@@ -56,16 +56,15 @@ public class Block : Location {
         return blockType;
     }
 
-    public BlockType getNeighbouringBlock(Direction direction) {
+    public Block getNeighbouringBlock(Direction direction) {
 
         World world = getWorld();
         Location neighbouringLocation = getNeighbouringLocation(direction);
         Chunk chunk = world.getChunk(neighbouringLocation);
         ChunkColumn chunkColumn = chunk.getColumn(neighbouringLocation);
-        BlockType blockType = chunkColumn.getBlockType(neighbouringLocation.getZ());
+        Block neighbouringBlock = chunkColumn.getBlock(neighbouringLocation.getBlockZ());
 
-        return blockType;
-
+        return neighbouringBlock;
     }
 
 }

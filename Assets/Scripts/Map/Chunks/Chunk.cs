@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 //A chunk inherits from WorldObject since it can be instantiated within the game, 
 //A chunk stores a 16*16 square of chunk columns 
@@ -10,8 +12,6 @@ public class Chunk : WorldObject {
 
     //The location of the chunk in the world
     private ChunkLocation location;
-    //The biome that is used for data to generate the blocks in the chunk
-    private Biome biome;
     //Whether or not all the chunk columns in the chunk need to be rendered
     private bool rendered = false;
 
@@ -21,13 +21,11 @@ public class Chunk : WorldObject {
     public Dictionary<Location, ChunkColumn> columns = new Dictionary<Location, ChunkColumn>();
 
     //intialise sets up all the necessary variables whn the chunk is instantiated
-    public void initialise(ChunkLocation location, Biome biome) {
+    public void initialise(ChunkLocation location) {
         //Set up the location in WorldObject
         base.initialise(location);
-        //Set the biome
-        this.biome = biome;
         //Set the position of the chunk in the game to it's location object
-        transform.position = location.asTransform();
+        transform.position = location.getPosition();
     }
 
     //Change the rendering of all chunkcolumns in the chunk, if it's already being rendered, stop rendering and vice versa
@@ -40,11 +38,6 @@ public class Chunk : WorldObject {
         //Toggle the variable that tracks whether the chunk is being rendered
         this.rendered = !isRendered();
 
-    }
-
-    //Return the chunks biome
-    public Biome getBiome() {
-        return this.biome;
     }
 
     //Whether or not all chunk columns in the chunk are rendered or not
@@ -84,12 +77,25 @@ public class Chunk : WorldObject {
     //Get the chunk column at the given location if it exists
     public ChunkColumn getColumn(Location location) {
 
-        if(columns.ContainsKey(location)) {
-            return columns[location];
-        } else {
-            return null;
-        }
+        int x = location.getBlockX();
+        int z = location.getBlockZ();
+        return getColumn(x, z);
 
+    }
+
+    public ChunkColumn getColumn(int x, int z) {
+
+        foreach(ChunkColumn chunkColumn in getColumns()) {
+
+            int columnX = chunkColumn.getLocation().getBlockX();
+            int columnZ = chunkColumn.getLocation().getBlockZ();
+
+            if(x == columnX && z == columnZ) {
+                return chunkColumn;
+            }
+
+        }
+        return null;
     }
 
 }

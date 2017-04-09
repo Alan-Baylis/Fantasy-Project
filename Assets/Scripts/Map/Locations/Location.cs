@@ -6,20 +6,15 @@ using UnityEngine;
 public class Location {
 
     //The world that these locations map for
-    public World world;
+    private World world;
 
-    //The x, y, z coordinates of this location
-    public int x;
-    public int y;
-    public int z;
+    private Vector3 position;
 
     //Initialise the location at the world and the x, y, z coordinates
-    public Location(World world, int x, int y, int z) {
+    public Location(World world, float x, float y, float z) {
 
         this.world = world;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = new Vector3(x, y, z);
 
     }
 
@@ -27,9 +22,7 @@ public class Location {
     public Location(World world, Vector3 position) {
 
         this.world = world;
-        this.x = Mathf.FloorToInt(position.x);
-        this.y = Mathf.FloorToInt(position.y);
-        this.z = Mathf.FloorToInt(position.z);
+        this.position = position;
 
     }
 
@@ -48,48 +41,58 @@ public class Location {
         this.world = world;
     }
 
-    //Get the x coordinate and set it below:
-    public virtual int getX() {
-        return this.x;
+    public Vector3 getPosition() {
+        return this.position;
     }
 
-    public virtual void setX(int x) {
-        this.x = x;
+    public void setPosition(Vector3 position) {
+        this.position = position;
+    }
+
+    //Get the x coordinate and set it below:
+    public virtual float getX() {
+        return this.position.x;
+    }
+
+    public virtual int getBlockX() {
+        return Mathf.FloorToInt(getX());
+    }
+
+    public virtual void setX(float x) {
+        this.position.x = x;
     }
 
     //same for y:
-    public virtual int getY() {
-        return this.y;
+    public virtual float getY() {
+        return this.position.y;
     }
 
-    public virtual void setY(int y) {
-        this.y = y;
+    public virtual int getBlockY() {
+        return Mathf.FloorToInt(getY());
+    }
+
+    public virtual void setY(float y) {
+        this.position.y = y;
     }
 
     //and z:
-    public virtual int getZ() {
-        return this.z;
+    public virtual float getZ() {
+        return this.position.z;
     }
 
-    public virtual void setZ(int z) {
-        this.z = z;
+    public virtual int getBlockZ() {
+        return Mathf.FloorToInt(getZ());
+    }
+
+    public virtual void setZ(float z) {
+        this.position.z = z;
     }
 
     //Set all components of the location in one go, just call all the functions above for the required values
     public virtual void setLocation(Location location) {
 
         setWorld(location.getWorld());
-        setX(location.getX());
-        setY(location.getY());
-        setZ(location.getZ());
-
-    }
-
-    //Convert the location to a Vector3 as used by Unity
-    public virtual Vector3 asTransform() {
-
-        Vector3 position = new Vector3(x, y, z);
-        return position;
+        setPosition(location.getPosition()); 
 
     }
 
@@ -108,11 +111,20 @@ public class Location {
         }
         World world = location1.getWorld();
 
-        int x = location1.getX() + location2.getX();
-        int y = location1.getY() + location2.getY();
-        int z = location1.getZ() + location2.getZ();
+        Vector3 positionSum = location1.getPosition() + location2.getPosition();
+        Location sum = new Location(world, positionSum);
 
-        Location sum = new Location(world, x, y, z);
+        return sum;
+    }
+
+    //Adding a Vector3 to a location adds the vector to the coordinates of the location
+    public static Location operator +(Location location, Vector3 position) {
+
+        World world = location.getWorld();
+
+        Vector3 positionSum = location.getPosition() + position;
+        Location sum = new Location(world, positionSum);
+
         return sum;
     }
 
@@ -124,12 +136,93 @@ public class Location {
         }
         World world = location1.getWorld();
 
-        int x = location1.getX() - location2.getX();
-        int y = location1.getY() - location2.getY();
-        int z = location1.getZ() - location2.getZ();
+        Vector3 positionSum = location1.getPosition() - location2.getPosition();
+        Location sum = new Location(world, positionSum);
 
-        Location sum = new Location(world, x, y, z);
         return sum;
+    }
+
+    //Subtracting a Vector3 from a location subtracts the vector from the coordinates of the location
+    public static Location operator -(Location location, Vector3 position) {
+
+        World world = location.getWorld();
+
+        Vector3 positionSum = location.getPosition() - position;
+        Location sum = new Location(world, positionSum);
+
+        return sum;
+    }
+
+    //Add functionality that allows two locations to be subtracted from each other to get a new location
+    public static Location operator *(Location location, float scaleFactor) {
+
+        World world = location.getWorld();
+
+        Vector3 positionSum = location.getPosition() * scaleFactor;
+        location = new Location(world, positionSum);
+
+        return location;
+    }
+
+    public static bool operator ==(Location location, object obj) {
+
+        return location.Equals(obj);
+
+    }
+
+    public static bool operator !=(Location location, object obj) {
+        return !(location == obj);
+    }
+
+    //Returns a unique number identifying the coordinate
+    public override int GetHashCode() {
+        unchecked {
+
+            int hash = 47;
+
+            hash *= 227 + this.getX().GetHashCode();
+            hash *= 227 + this.getY().GetHashCode();
+            hash *= 227 + this.getZ().GetHashCode();
+
+            hash += this.getWorld().GetHashCode();
+
+            return hash;
+        }
+    }
+
+    public override bool Equals(object obj) {
+
+        if(!(obj is Location)) {
+            return false;
+        } else {
+
+            Location location = (Location) obj;
+
+            World world = location.getWorld();
+            if(world != getWorld()) {
+                return false;
+            }
+
+            return location.getPosition() == this.getPosition();
+
+        }
+
+    }
+
+    public double distance(Vector3 position) {
+
+        return Vector3.Distance(getPosition(), position);
+
+    }
+
+    public double distance(Location location) {
+        return distance(location.getPosition());
+    }
+
+    public override string ToString() {
+
+        return "Location @ World: " + getWorld() + " (" + getX() + ", " + getY() + ", " + getZ() + ")"; 
+
     }
 
 }

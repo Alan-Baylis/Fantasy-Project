@@ -2,15 +2,11 @@
 //In order for an event to be cancellable, it must implement ICancellable
 using System;
 
-public class Event : ICancellable {
+public class Event {
 
     //The event can take any paramters you want in as arguments
     public Event() {
 
     }
 
-    //This method is required for the event to be cancellable
-    public bool isCancelled() {
-        throw new NotImplementedException();
-    }
 }

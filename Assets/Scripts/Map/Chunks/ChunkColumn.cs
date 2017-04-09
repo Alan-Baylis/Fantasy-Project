@@ -11,8 +11,8 @@ public class ChunkColumn : WorldObject {
     //The height of each column is fixed
     public static int blockMapHeight = 128;
 
-    //the block that is currently being rendered by the column
-    public Block block;
+    ////the block that is currently being rendered by the column
+    //public Block block;
 
     //Get a reference to the sprite renderer
     private SpriteRenderer spriteRenderer;
@@ -22,48 +22,74 @@ public class ChunkColumn : WorldObject {
     private bool rendered = false;
 
     //Store a list of all block types in the column
-    private List<BlockType> column = new List<BlockType>();
+    private List<Block> column = new List<Block>();
     //reference the location of the column, within it's chunk
     private Location columnBaseLocation;
     //The chunk the column is a member of
     private Chunk parentChunk;
+    //The Biome of the column used for terrain generation
+    private Biome biome;
 
     //Initialise is called when the chunk column is instantiated
-    public void initialise(Chunk chunk, Location columnBaseLocation, Direction facingDirection) {
+    public void initialise(Chunk chunk, Biome biome, Location columnBaseLocation, Direction facingDirection) {
 
         //Set up the WorldObject at the given location
         base.initialise(columnBaseLocation);
         //assign the chunk holder
         this.parentChunk = chunk;
+        //Assign the biome
+        this.biome = biome;
         //and the direction the chunk is facing
         this.facingDirection = facingDirection;
 
         //Save the location of the chunk column
         this.columnBaseLocation = columnBaseLocation;
+
+        float x = columnBaseLocation.getX();
+        float z = columnBaseLocation.getZ();
+
+        //Set up the empty lis of blocks in the column
+        column = new List<Block>();
+
         //Initialise all blocks in the chunk column as air blocks
-        for(int z = 0; z < blockMapHeight; z++) {
-            column.Add(BlockType.AIR);
+        for(int y = 0; y < blockMapHeight; y++) {
+            Location location = new Location(getWorld(), x, y, z);
+            column.Add(new Air(location));
         }
         //They start off invisible
         this.rendered = false;
-        //The block is the highest block that has a texture in the columns, if they are all air blocks, this will be 
-        //a basic Block() type
-        block = getHighestRenderableBlock();
 
         //Set the position of the column as the chunk's location and it's location within the chunk
-        transform.position = parentChunk.getLocation().asTransform() + columnBaseLocation.asTransform();
+        Location worldLocation = getWorldLocation();
+        transform.position = worldLocation.getPosition();
+
+        //recalculate it's rendering
+        recalculateRendering();
     }
 
-    //update is not the same update as is called be Unity
-    public void update() {
+    //recalculateRendering() re sets the column's texture to the new heighest block in the column 
+    public void recalculateRendering() {
         //Recalculate which block needs to be rendered
-        block = getHighestRenderableBlock();
+        Block block = getHighestRenderableBlock();
+
+        //If the spriterenderer hasn't been referenced yet, get it
+        if(spriteRenderer == null) {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        // Get the sprite for this block
+        Sprite blockSprite = block.getSprite(getDirection());
+        //Set the sprite to the sprite renderer
+        spriteRenderer.sprite = blockSprite;
+        //move the column to the block's height in the column
+        transform.position = block.getPosition();
 
     }
+
     //Assign the sprite renderer on load
     private void Start() {
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+        transform.Rotate(Vector3.right * 90);
 
     }
 
@@ -86,9 +112,9 @@ public class ChunkColumn : WorldObject {
             //Set the sprite to the sprite renderer
             spriteRenderer.sprite = blockSprite;
             //move the column to the block's height in the column
-            transform.position = block.asTransform();
+            transform.position = block.getPosition();
         }
-        //togglt the render tracking variable
+        //toggle the render tracking variable
         this.rendered = !isRendered();
 
     }
@@ -99,8 +125,18 @@ public class ChunkColumn : WorldObject {
     }
 
     //returns all the blockTypes in the column as an array
-    public BlockType[] getColumn() {
+    public Block[] getColumn() {
         return this.column.ToArray();
+    }
+
+    //Return the chunks biome
+    public Biome getBiome() {
+        return this.biome;
+    }
+
+    //Return the parent chunk
+    public Chunk getChunk() {
+        return this.parentChunk;
     }
 
     //Whether or not the block is being rendered
@@ -114,33 +150,27 @@ public class ChunkColumn : WorldObject {
     }
 
     //Assign the block at the given z coord in the column to the given blockType
-    public void setBlockType(int z, BlockType blockType) {
+    public void setBlock(int y, Block block) {
         //remove the previous value and add the new one
-        column.RemoveAt(z);
-        column.Insert(z, blockType);
+        column.RemoveAt(y);
+        column.Insert(y, block);
     }
 
     //Get the block type at the given z coordinate
-    public BlockType getBlockType(int z) {
-        if(z < 0 || z > blockMapHeight) {
-            return BlockType.BLOCK;
+    public Block getBlock(int y) {
+        if(y < 0 || y > blockMapHeight) {
+            return new Block(getLocation());
         }
-        return column[z];
+        return column[y];
     }
 
     //Get the highest block in the column that has a texture
     public Block getHighestRenderableBlock() {
 
         //Iterate from the highest block in the column down to the lowest
-        for(int z = blockMapHeight - 1; z >= 0; z--) {
+        for(int y = blockMapHeight - 1; y >= 0; y--) {
             //Get the block type at this position in the column
-            BlockType blockType = column[z];
-            //get the location of the column in the chunk and set the z coord to the current height
-            Location location = getLocation();
-            location.setZ(z);
-            //Block block = Block.getBlock(world, blockType, location);
-            //Get an instance of the given block types's associated block at this cooredinate
-            Block block = blockType.getBlock(location);
+            Block block = column[y];
 
             //if the block has a texture, we have found the heighest renderable block
             if(block.isRenderable()) {
