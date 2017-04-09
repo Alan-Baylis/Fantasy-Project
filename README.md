@@ -1,3 +1,3 @@
-# 2-D-Fantasy-Project
+# Fantasy-Project
 
 A Top Down Adventure RPG Game for Unity (WIP)
