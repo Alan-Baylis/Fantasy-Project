@@ -5,19 +5,21 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4552080B-AD0D-6B8D-DFE0-EC3C87B8D150}</ProjectGuid>
+    <ProjectGuid>{376A0332-BD8B-0571-47ED-D8DB49981C9B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -52,26 +54,92 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.EditorTestsRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.EditorTestsRunner.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.PlaymodeTestsRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.PlaymodeTestsRunner.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PlaymodeTestsRunner">
       <HintPath>Library\UnityAssemblies\UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEditor.HoloLens.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>Library\UnityAssemblies\UnityEditor.VR.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.AppleTV.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.AppleTV.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WSA.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WSA.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Tizen.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Tizen.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SamsungTV.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.SamsungTV.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WebGL.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.LinuxStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.LinuxStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.OSXStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
@@ -85,67 +153,23 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.Mono.Cecil">
+      <HintPath>Assets\UnityVS\Editor\SyntaxTree.Mono.Cecil.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Fantasy Project.Plugins.csproj">
       <Project>{CE6F01F6-7543-4D2B-0803-09CE4AD2B8FA}</Project>
       <Name>Fantasy Project.Plugins</Name>
     </ProjectReference>
+    <ProjectReference Include="Fantasy Project.csproj">
+      <Project>{4552080B-AD0D-6B8D-DFE0-EC3C87B8D150}</Project>
+      <Name>Fantasy Project</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Events\EventHandlers\EventHandler.cs" />
-    <Compile Include="Assets\Scripts\Events\EventListener.cs" />
-    <Compile Include="Assets\Scripts\Events\Events\Blocks\BlockEvent.cs" />
-    <Compile Include="Assets\Scripts\Events\Events\Entities\PlayerMoveEvent.cs" />
-    <Compile Include="Assets\Scripts\Events\Events\Event.cs" />
-    <Compile Include="Assets\Scripts\Events\EventsManager.cs" />
-    <Compile Include="Assets\Scripts\Events\ICancelable.cs" />
-    <Compile Include="Assets\Scripts\Events\IListener.cs" />
-    <Compile Include="Assets\Scripts\Events\ReflectionData.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\Air.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\Block.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\BlockType.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\Grass.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\Netherrack.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\Sand.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\Stone.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\Trees\OakLeaves.cs" />
-    <Compile Include="Assets\Scripts\Map\Blocks\Trees\OakLog.cs" />
-    <Compile Include="Assets\Scripts\Map\Chunks\Chunk.cs" />
-    <Compile Include="Assets\Scripts\Map\Chunks\ChunkColumn.cs" />
-    <Compile Include="Assets\Scripts\Map\Events\MapLoadingHandler.cs" />
-    <Compile Include="Assets\Scripts\Map\Locations\ChunkLocation.cs" />
-    <Compile Include="Assets\Scripts\Map\Locations\Direction.cs" />
-    <Compile Include="Assets\Scripts\Map\Locations\Location.cs" />
-    <Compile Include="Assets\Scripts\Map\MapDisplay.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\Biomes\Biome.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\Biomes\HillsBiome.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\Biomes\NetherBiome.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\GeneratorData.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\NoiseGenerator.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\SimplexNoise.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\TerrainGen.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\TerrainGenerator.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\Trees\Oak.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\Trees\Tree.cs" />
-    <Compile Include="Assets\Scripts\Map\Terrain Generation\Trees\TreeTypes.cs" />
-    <Compile Include="Assets\Scripts\Map\World.cs" />
-    <Compile Include="Assets\Scripts\Map\WorldObject.cs" />
-    <Compile Include="Assets\Scripts\Player\Movement.cs" />
-    <Compile Include="Assets\Scripts\Player\Player.cs" />
-    <Compile Include="Assets\Scripts\Player\ZoomControl.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\Data\NoiseData.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\Data\TerrainData.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\Data\Updatable Data.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\EndlessTerrain.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\FalloffGenerator.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\HideOnPlay.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\MapDisplay.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\MapGenerator.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\MeshGenerator.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\ProceduralNoise.cs" />
-    <Compile Include="Assets\Scripts\Procedural Terrain\TextureGenerator.cs" />
+    <Compile Include="Assets\Editor\MapGeneratorEditor.cs" />
+    <Compile Include="Assets\Editor\UpdatableDataEditor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

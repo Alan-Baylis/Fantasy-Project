@@ -52,9 +52,13 @@ public class World : WorldObject {
                 ChunkLocation chunkLocation = new ChunkLocation(this, i, 0, j);
 
                 Chunk chunk = loadChunk(terrainGenerator, chunkLocation);
-                renderChunk(chunk);
+                //renderChunk(chunk);
             }
         }
+
+        MapDisplay1 display = FindObjectOfType<MapDisplay1>();
+        display.drawMap(4, 4, getLoadedChunks());
+
     }
 
     //Get all currently loaded chunks as an array
@@ -109,8 +113,8 @@ public class World : WorldObject {
             //set the chunk to be nested under the world in the heirarchy
             chunk.transform.SetParent(transform);
         }
-            //Add this chunk to the list of loaded chunks
-            loadedChunks.Add(chunk);
+        //Add this chunk to the list of loaded chunks
+        loadedChunks.Add(chunk);
 
         return chunk;
     }
