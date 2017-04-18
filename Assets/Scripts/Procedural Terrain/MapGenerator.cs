@@ -7,7 +7,6 @@ public class MapGenerator : MonoBehaviour {
 
     public enum DrawMode {
         NOISEMAP,
-        COLOURMAP,
         MESH,
         FALLOFFMAP
     };
@@ -17,12 +16,22 @@ public class MapGenerator : MonoBehaviour {
 
     public TerrainData terrainData;
     public NoiseData noiseData;
+    public TextureData textureData;
 
-    public const int mapChunkSize = 59;
+    public Material terrainMaterial;
+
+    public int mapChunkSize {
+        get {
+            if(terrainData.useFlatShading) {
+                return 95;
+            } else {
+                return 239;
+            }
+        }
+    }
+
     [Range(0, 3)]
     public int editorLOD;
-
-    public TerrainTypes[] regions;
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
@@ -30,10 +39,6 @@ public class MapGenerator : MonoBehaviour {
     private float[,] falloffMap;
     public float falloffCurveA;
     public float falloffCurveB;
-
-    private void Awake() {
-        falloffMap = FalloffGenerator.generateFalloffMap(mapChunkSize, falloffCurveA, falloffCurveB);
-    }
 
     private void onValuesUpdated() {
 
@@ -43,28 +48,27 @@ public class MapGenerator : MonoBehaviour {
 
     }
 
+    private void onTextureValuesUpdated() {
+        textureData.applyToMaterial(terrainMaterial);
+    }
+
     public void drawMapInEditor() {
 
         MapData mapData = generateMapData(Vector2.zero);
+        textureData.updateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
 
         MapDisplay mapDisplay = FindObjectOfType<MapDisplay>();
 
-        if(drawMode != DrawMode.MESH && drawMode != DrawMode.FALLOFFMAP) {
+        if(drawMode == DrawMode.NOISEMAP) {
 
-            Texture2D texture = null;
-            if(drawMode == DrawMode.NOISEMAP) {
-                texture = TextureGenerator.textureFromHeightMap(mapData.heightMap);
-            } else {
-                texture = TextureGenerator.textureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize);
-            }
+            Texture2D texture = TextureGenerator.textureFromHeightMap(mapData.heightMap);
             mapDisplay.drawTexture(texture);
 
         } else if(drawMode == DrawMode.MESH) {
 
             MeshData meshData = MeshGenerator.generateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, editorLOD, terrainData.useFlatShading);
-            Texture2D texture = TextureGenerator.textureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize);
 
-            mapDisplay.drawMesh(meshData, texture);
+            mapDisplay.drawMesh(meshData);
 
         } else if(drawMode == DrawMode.FALLOFFMAP) {
 
@@ -132,6 +136,7 @@ public class MapGenerator : MonoBehaviour {
 
             }
         }
+        textureData.updateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
 
     }
 
@@ -139,26 +144,27 @@ public class MapGenerator : MonoBehaviour {
 
         float[,] noiseMap = ProceduralNoise.generateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.noiseScale, noiseData.seed, noiseData.octaves, noiseData.persistance, noiseData.lacunarity, centre + noiseData.offset, noiseData.normalizeMode);
 
-        Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
-        for(int y = 0; y < mapChunkSize; y++) {
-            for(int x = 0; x < mapChunkSize; x++) {
+        if(terrainData.useFalloffMap) {
 
-                if(terrainData.useFalloffMap) {
-                    noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - falloffMap[x, y]);
-                }
+            if(falloffMap == null) {
+                falloffMap = FalloffGenerator.generateFalloffMap(mapChunkSize + 2, falloffCurveA, falloffCurveB);
+            }
 
-                float currentHeight = noiseMap[x, y];
-                for(int i = 0; i < regions.Length; i++) {
-                    if(currentHeight >= regions[i].height) {
-                        colourMap[y * mapChunkSize + x] = regions[i].colour;
-                    } else {
-                        break;
+            for(int y = 0; y < mapChunkSize + 2; y++) {
+                for(int x = 0; x < mapChunkSize + 2; x++) {
+
+                    if(terrainData.useFalloffMap) {
+                        noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - falloffMap[x, y]);
                     }
+
                 }
             }
+
         }
 
-        return new MapData(noiseMap, colourMap);
+        //textureData.updateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
+
+        return new MapData(noiseMap);
 
     }
 
@@ -172,8 +178,10 @@ public class MapGenerator : MonoBehaviour {
             noiseData.onValuesUpdated -= onValuesUpdated;
             noiseData.onValuesUpdated += onValuesUpdated;
         }
-
-        falloffMap = FalloffGenerator.generateFalloffMap(mapChunkSize, falloffCurveA, falloffCurveB);
+        if(textureData != null) {
+            textureData.onValuesUpdated -= onTextureValuesUpdated;
+            textureData.onValuesUpdated += onTextureValuesUpdated;
+        }
 
     }
 
@@ -189,24 +197,13 @@ public class MapGenerator : MonoBehaviour {
 
 }
 
-[Serializable]
-public struct TerrainTypes {
-
-    public string name;
-    public float height;
-    public Color colour;
-
-}
-
 public struct MapData {
 
     public readonly float[,] heightMap;
-    public readonly Color[] colourMap;
 
-    public MapData(float[,] heightMap, Color[] colourMap) {
+    public MapData(float[,] heightMap) {
 
         this.heightMap = heightMap;
-        this.colourMap = colourMap;
 
     }
 }

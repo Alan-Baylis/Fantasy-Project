@@ -18,10 +18,11 @@ public class MapDisplay : MonoBehaviour {
 
     }
 
-    public void drawMesh(MeshData meshData, Texture2D texture) {
+    public void drawMesh(MeshData meshData) {
 
         meshFilter.sharedMesh = meshData.createMesh();
-        meshRenderer.sharedMaterial.mainTexture = texture;
+
+        meshFilter.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator>().terrainData.uniformScale;
 
     }
 

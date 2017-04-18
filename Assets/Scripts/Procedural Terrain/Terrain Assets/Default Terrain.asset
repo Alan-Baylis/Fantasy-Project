@@ -13,24 +13,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   useFalloffMap: 0
-  useFlatShading: 1
-  uniformScale: 1
-  meshHeightMultiplier: 75
+  useFlatShading: 0
+  uniformScale: 25
+  meshHeightMultiplier: 50
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0.3
+      time: 0
+      value: -0.01
+      inSlope: 0.028571429
+      outSlope: 0.028571429
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 0.35
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.029083144
+      outSlope: 0.029083144
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1.5384616
+      outSlope: 1.5384616
+      tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
