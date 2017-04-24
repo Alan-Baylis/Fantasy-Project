@@ -1,10 +1,7 @@
 ﻿Shader "Custom/Terrain" {
-	Properties{
 
-		testTexture("Texture", 2D) = "white"{}
-		testScale("Scale", Float) = 1
-
-	}
+    Properties {
+    }
 	SubShader{
 		Tags { "RenderType" = "Opaque" }
 		LOD 200
@@ -28,9 +25,6 @@
 
 		float minHeight;
 		float maxHeight;
-
-		sampler2D testTexture;
-		float testScale;
 
 		UNITY_DECLARE_TEX2DARRAY(baseTextures);
 

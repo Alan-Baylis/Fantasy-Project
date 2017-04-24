@@ -2,7 +2,7 @@
 
 //THis class is used simply to have an easy storage of the data necessary to make a
 //reflexive method call on an eventhandler when an event is called
-class ReflectionData {
+public class ReflectionData {
 
     //The reference to the instacne of the event handler, all event handlers must iplement the Listener interface
     private IListener eventHandler;

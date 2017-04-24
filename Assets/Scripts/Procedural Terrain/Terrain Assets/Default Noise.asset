@@ -13,8 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   normalizeMode: 1
-  noiseScale: 100
-  octaves: 5
+  noiseScale: 250
+  octaves: 0
   persistance: 0.5
   lacunarity: 2
   seed: 0
