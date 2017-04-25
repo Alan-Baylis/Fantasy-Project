@@ -1,14 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//This static class generates a falloff map of given size, fall off maps can be used to generate individual "continents" on each mesh
+/// <summary>
+/// This static class generates a falloff map of given size, fall off maps can be used to generate individual "continents" on each mesh
+/// </summary>
 public static class FalloffGenerator {
 
-    //A FallOff map is a height map with values close to 0 at the centre of the map and the values get closer and closer to 1 as 
+    // A FallOff map is a height map with values close to 0 at the centre of the map and the values get closer and closer to 1 as 
     //you near the edge of the map
 
-    //The function takes in the dimensions of the fallOffMap, has to be a square, aswell as two variables for the function that 
-    //generates height values in the map
+    /// <summary>
+    ///The function takes in the dimensions of the fallOffMap, has to be a square, aswell as two variables for the function that 
+    ///generates height values in the map
+    /// </summary>
+    /// <param name="size"></param>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
     public static float[,] generateFalloffMap(int size, float a, float b) {
 
         //Create a new empty heigh map of the given dimensions
@@ -35,7 +43,13 @@ public static class FalloffGenerator {
 
     }
 
-    //The function that generates a value between (0, 1) from the inputed value and two variables a & b
+    /// <summary>
+    /// The function that generates a value between (0, 1) from the inputed value and two variables a & b
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
     private static float falloffCurve(float value, float a, float b) {
 
         //Uses function:

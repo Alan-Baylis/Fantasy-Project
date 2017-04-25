@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//This simple script makes the editor preview objects invisible when you enter play mode
+/// <summary>
+/// This script stores references to a plane and mesh GameObject that are used to preview the map in the editor while not in play mode
+/// </summary>
 public class HideOnPlay : MonoBehaviour {
 
     void Start() {

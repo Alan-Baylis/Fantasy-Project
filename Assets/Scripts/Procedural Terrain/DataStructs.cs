@@ -2,14 +2,21 @@
 using System.Collections;
 using System;
 
-//This serves as a holder for the noise map of each chunk
+/// <summary>
+/// This serves as a holder for the noise map of each chunk
+/// </summary>
 public struct MapData {
 
-    //Structs are supposed to be immutable, so readonly makes it so it can't be changed once it is assigned,
-    //the heightmap holds height info for each coord in a chunk
+    /// <summary>
+    /// Structs are supposed to be immutable, so readonly makes it so it can't be changed once it is assigned,
+    ///the heightmap holds height info for each coord in a chunk
+    /// </summary>
     public readonly float[,] heightMap;
 
-    //The constructor is the only place where we are allowed to assign the data
+    /// <summary>
+    /// The constructor is the only place where we are allowed to assign the data
+    /// </summary>
+    /// <param name="heightMap"></param>
     public MapData(float[,] heightMap) {
 
         this.heightMap = heightMap;
@@ -17,15 +24,26 @@ public struct MapData {
     }
 }
 
-//Map thread info is a struct tha can hold a data type and a function call of a given data type T
+/// <summary>
+/// Map thread info is a struct tha can hold a data type and a function call of a given data type T
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public struct MapThreadInfo<T> {
-    
-    //callBack is a function that can be called later it takes in an object of type T as a parameter
+
+    /// <summary>
+    /// callBack is a function that can be called later it takes in an object of type T as a parameter
+    /// </summary>
     public readonly Action<T> callBack;
-    //parameter is a data type of object type T that is inputed into callBak whenever it is to be called
+    /// <summary>
+    /// parameter is a data type of object type T that is inputed into callBak whenever it is to be called
+    /// </summary>
     public readonly T parameter;
 
-    //Assign the values in the constructor
+    /// <summary>
+    /// Assign the values in the constructor
+    /// </summary>
+    /// <param name="callBack"></param>
+    /// <param name="parameter"></param>
     public MapThreadInfo(Action<T> callBack, T parameter) {
         this.callBack = callBack;
         this.parameter = parameter;
@@ -34,7 +52,9 @@ public struct MapThreadInfo<T> {
 }
 
 //LOD = Level Of Detail
-//LODMesh handles the requesting of meshData and generation of meshes from it for each mesh across threads
+/// <summary>
+/// LODMesh handles the requesting of meshData and generation of meshes from it for each mesh across threads
+/// </summary>
 public class LODMesh {
 
     //The mesh of the meshData once it is received, it is written to later, so it can't be readonly
@@ -49,13 +69,21 @@ public class LODMesh {
     //The function to call once the mesh Data and mesh is fully generated
     private Action updateCallBack;
 
-    //The constructor takes in the level of detail for the mesh and the function to call once it is complete
+    /// <summary>
+    /// The constructor takes in the level of detail for the mesh and the function to call once it is complete
+    /// </summary>
+    /// <param name="lod"></param>
+    /// <param name="updateCallBack"></param>
     public LODMesh(int lod, Action updateCallBack) {
         this.lod = lod;
         this.updateCallBack = updateCallBack;
     }
 
-    //The function that starts the generation of the mesh on another thread, takes in the height map for the mesh and the map generator
+    /// <summary>
+    /// The function that starts the generation of the mesh on another thread, takes in the height map for the mesh and the map generator
+    /// </summary>
+    /// <param name="mapData"></param>
+    /// <param name="mapGenerator"></param>
     public void requestMesh(MapData mapData, MapGenerator mapGenerator) {
 
         //We have started generating a mesh in another thread
@@ -66,7 +94,10 @@ public class LODMesh {
 
     }
 
-    //The function is called from another thread once the meshData has been computed for the inputed mapData
+    /// <summary>
+    /// The function is called from another thread once the meshData has been computed for the inputed mapData
+    /// </summary>
+    /// <param name="meshData"></param>
     void onMeshDataReceived(MeshData meshData) {
 
         //generate the actual mesh gameObject from the meshData generated in the other thread
@@ -80,15 +111,23 @@ public class LODMesh {
 
 }
 
-//LODInfo is used in the editor to change the level of detail to distance relationship for chunks
+/// <summary>
+/// LODInfo is used in the editor to change the level of detail to distance relationship for chunks
+/// </summary>
 [Serializable]
 public struct LODInfo {
 
-    //The level of detail for the current distance
+    /// <summary>
+    /// The level of detail for the current distance
+    /// </summary>
     public int lod;
-    //The distance the chunk must be within to have this lod
+    /// <summary>
+    /// The distance the chunk must be within to have this lod
+    /// </summary>
     public float visibleDistanceThreshold;
-    //Whether or not we use this lod to generate collider meshes
+    /// <summary>
+    /// Whether or not we use this lod to generate collider meshes
+    /// </summary>
     public bool useForCollider;
 
 }

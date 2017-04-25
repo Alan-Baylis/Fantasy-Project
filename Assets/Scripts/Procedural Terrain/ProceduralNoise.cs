@@ -5,23 +5,34 @@ using UnityEngine;
 
 public static class ProceduralNoise {
 
-    //The normalize modes are used for scaling of all heights in the mesh:
+    /// <summary>
+    /// The normalize modes are used for scaling of all heights in the mesh:
+    /// </summary>
     public enum NormalizeMode {
-        //LOCAL normalize mode scales all heights based off of the highest and lowest values within each seperate mesh, where each esh has it's 
-        //own values
+        /// <summary>
+        /// LOCAL normalize mode scales all heights based off of the highest and lowest values within each seperate mesh, where each esh has it's 
+        ///own values
+        /// </summary>
         LOCAL,
-        //GLOBAL normalize mode scales all height values across all meshes with an estimate for the average highest and lowest mesh heights
+        /// <summary>
+        /// GLOBAL normalize mode scales all height values across all meshes with an estimate for the average highest and lowest mesh heights
+        /// </summary>
         GLOBAL
     }
 
-    //This function generates the heightMap that represents terrain in each mesh, the mapWidth and mapHeight should be equal for a square mesh,
-    //The scale is how much terrain fits into each mesh, the bigger the value, the larger the terrain is and the less that fits in one mesh,
-    //The seed guratess that the same terrain is generated every time using the same seed,
-    //The octaves control how many times we overlay heights onto the same coordintes, like octaves on a musical note,
-    //Persistance affects the strength/influence of the amplitude on each successive octave,
-    //lacunarity affects the scaling down of the frequency across each octave,
-    //The offset shifts the entire map by the offset value,
-    //The normalizemode is descibed above and scales the heights based off of highest and lowest values
+    /// <summary>
+    /// This function generates the heightMap that represents terrain in each mesh
+    /// </summary>
+    /// <param name="mapWidth">the mapWidth and mapHeight should be equal for a square mesh</param>
+    /// <param name="mapHeight">the mapWidth and mapHeight should be equal for a square mesh</param>
+    /// <param name="scale">The scale is how much terrain fits into each mesh, the bigger the value, the larger the terrain is and the less that fits in one mesh</param>
+    /// <param name="seed">The seed guratess that the same terrain is generated every time using the same seed</param>
+    /// <param name="octaves">The octaves control how many times we overlay heights onto the same coordintes, like octaves on a musical note</param>
+    /// <param name="persistance">Persistance affects the strength/influence of the amplitude on each successive octave</param>
+    /// <param name="lacunarity">lacunarity affects the scaling down of the frequency across each octave</param>
+    /// <param name="offset">The offset shifts the entire map by the offset value</param>
+    /// <param name="normalizeMode">The normalizemode is described above and scales the heights based off of highest and lowest values</param>
+    /// <returns></returns>
     public static float[,] generateNoiseMap(int mapWidth, int mapHeight, float scale, int seed, int octaves, float persistance, float lacunarity, Vector2 offset, NormalizeMode normalizeMode) {
 
         //Create a new pseudo random number generator using the seed, so that the same numbers will always generated in the same order
@@ -88,7 +99,7 @@ public static class ProceduralNoise {
 
                     //float noiseValue = (Noise.Generate(sampleX, sampleY) + 1f) * (1 / 2f);
                     //float noiseValue = Noise.Generate(sampleX, sampleY);
-                    
+
                     //Generate a noise value for this coordinate, the default values range is (0, 1), so we multiply by 2 and -1
                     //to get it in the range (-1, 1)
                     float noiseValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;

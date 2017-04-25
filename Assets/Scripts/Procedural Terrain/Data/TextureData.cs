@@ -22,7 +22,10 @@ public class TextureData : UpdateableData {
     float savedMinHeight;
     float savedMaxHeight;
 
-    //Apply the textures and data stored in this intance to the given material's shader
+    /// <summary>
+    /// Apply the textures and data stored in this intance to the given material's shader
+    /// </summary>
+    /// <param name="material"></param>
     public void applyToMaterial(Material material) {
 
         //Set the number of layers in the shader to our array size
@@ -47,7 +50,12 @@ public class TextureData : UpdateableData {
 
     }
 
-    //The function simply saves data to the shader variables and updates the saved values in this object aswell
+    /// <summary>
+    /// The function simply saves data to the shader variables and updates the saved values in this object aswell
+    /// </summary>
+    /// <param name="material"></param>
+    /// <param name="minHeight"></param>
+    /// <param name="maxHeight"></param>
     public void updateMeshHeights(Material material, float minHeight, float maxHeight) {
 
         material.SetFloat("minHeight", minHeight);
@@ -58,7 +66,11 @@ public class TextureData : UpdateableData {
 
     }
 
-    //Converts a flat texture2D array to a texture2d array object that can be interpreted by the shader
+    /// <summary>
+    /// Converts a flat texture2D array to a texture2d array object that can be interpreted by the shader
+    /// </summary>
+    /// <param name="textures"></param>
+    /// <returns></returns>
     private Texture2DArray generateTextureArray(Texture2D[] textures) {
 
         //Create a texture array where every texture has dimensions exture size, the array has length textures.length, each texture is encoded
@@ -77,23 +89,37 @@ public class TextureData : UpdateableData {
     }
 
     //Layers can be edited in the editor
+    /// <summary>
+    /// They represent a texture and all the colours, blends and tints that can be applied to that texture in the shader
+    /// </summary>
     [Serializable]
-    //They represent a texture and all the colours, blends and tints that can be applied to that texture in the shader
     public class Layer {
 
-        //The texture for this layer
+        /// <summary>
+        /// The texture for this layer
+        /// </summary>
         public Texture2D texture;
-        //This size of the texture on the mesh
+        /// <summary>
+        /// This size of the texture on the mesh
+        /// </summary>
         public float textureScale;
-        //The colour tint applied to the texture
+        /// <summary>
+        /// The colour tint applied to the texture
+        /// </summary>
         public Color tint;
-        //The relative strength of that tint, 1 being max and min no strength
+        /// <summary>
+        /// The relative strength of that tint, 1 being max and min no strength
+        /// </summary>
         [Range(0, 1)]
         public float tintStrength;
-        //Where abouts in the map is the texture going to start to appear, the height of the map is in the range (0, 1)
+        /// <summary>
+        /// Where abouts in the map is the texture going to start to appear, the height of the map is in the range (0, 1)
+        /// </summary>
         [Range(0, 1)]
         public float startHeight;
-        //The fuzziness of the border between two textures, 1 = lots of mixing and 0 = no mixing (hard edge)
+        /// <summary>
+        /// The fuzziness of the border between two textures, 1 = lots of mixing and 0 = no mixing (hard edge)
+        /// </summary>
         [Range(0, 1)]
         public float blendStrength;
 

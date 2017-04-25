@@ -2,30 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Contains data used in generating each bit of mapData
+/// </summary>
 [CreateAssetMenu()]
-//Contains data used in generating each bit of mapData
 public class NoiseData : UpdateableData {
 
-    //The normalize mode for the terrain: whether or not we use local min/max s or global estimates of them
+    /// <summary>
+    /// The normalize mode for the terrain: whether or not we use local min/max s or global estimates of them
+    /// </summary>
     public ProceduralNoise.NormalizeMode normalizeMode;
 
-    //The scaling of the noise in the mapData
+    /// <summary>
+    /// The scaling of the noise in the mapData
+    /// </summary>
     public float noiseScale;
 
-    //The number of times we overlay layers onto the map
+    /// <summary>
+    /// The number of times we overlay layers onto the map
+    /// </summary>
     public int octaves;
-    //The persistance of each octave is the realtive strength of each subsequent amplitude
+    /// <summary>
+    /// The persistance of each octave is the realtive strength of each subsequent amplitude
+    /// </summary>
     [Range(0, 1)]
     public float persistance;
-    //Lacunarity is how the frequency scales across octaves
+    /// <summary>
+    /// Lacunarity is how the frequency scales across octaves
+    /// </summary>
     public float lacunarity;
 
-    //The seed that is used in the pseudo random number generator in the noise generator
+    /// <summary>
+    /// The seed that is used in the pseudo random number generator in the noise generator
+    /// </summary>
     public int seed;
-    //The offset each mesh will be from the origin
+    /// <summary>
+    /// The offset each mesh will be from the origin
+    /// </summary>
     public Vector2 offset;
 
-    //OnValidate is called whenever a value changes in the editor
+    /// <summary>
+    /// OnValidate is called whenever a value changes in the editor
+    /// </summary>
     protected override void OnValidate() {
 
         //Lacunarity must always be greater or = than 1

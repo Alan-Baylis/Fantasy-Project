@@ -5,13 +5,21 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
 
-    //The three available types of displaying the generated preview in the editor
+    /// <summary>
+    /// The three available types of displaying the generated preview in the editor
+    /// </summary>
     public enum DrawMode {
-        //NOISEMAP is the black-and-white base rendering of the noiseMap generated
+        /// <summary>
+        /// NOISEMAP is the black-and-white base rendering of the noiseMap generated
+        /// </summary>
         NOISEMAP,
-        //The falloff map is used to create small seperate islands on each mesh, this previews the falloff map
+        /// <summary>
+        /// The falloff map is used to create small seperate islands on each mesh, this previews the falloff map
+        /// </summary>
         FALLOFFMAP,
-        //Mesh is the final view of the map in the game
+        /// <summary>
+        /// Mesh is the final view of the map in the game
+        /// </summary>
         MESH
     };
 
@@ -37,8 +45,8 @@ public class MapGenerator : MonoBehaviour {
             if(terrainData.useFlatShading) {
                 return 95;
             } else {
-                //return 239;
-                return 59;
+                return 239;
+                //return 95;
             }
         }
     }
@@ -59,7 +67,9 @@ public class MapGenerator : MonoBehaviour {
     public float falloffCurveA;
     public float falloffCurveB;
 
-    //This function is called whenever an above value is changed and it reflects those cahnges in the editor
+    /// <summary>
+    /// This function is called whenever an above value is changed and it reflects those cahnges in the editor
+    /// </summary>
     private void onValuesUpdated() {
         //If the game is playing, update the editor with the changes
         if(!Application.isPlaying) {
@@ -68,12 +78,16 @@ public class MapGenerator : MonoBehaviour {
 
     }
 
-    //Whenever the data in textureData changes, this function is called to update the material with the changes
+    /// <summary>
+    ///  Whenever the data in textureData changes, this function is called to update the material with the changes
+    /// </summary>
     private void onTextureValuesUpdated() {
         textureData.applyToMaterial(terrainMaterial);
     }
 
-    //This function is used to preview all changes made to the map generating functionality in the editor
+    /// <summary>
+    ///  This function is used to preview all changes made to the map generating functionality in the editor
+    /// </summary>
     public void drawMapInEditor() {
 
         //Generate the mapData centered around the origin
@@ -107,8 +121,41 @@ public class MapGenerator : MonoBehaviour {
 
     }
 
-    //We utitlise threading to generate the MapData, this function is called and starts the generation of the map data in a seperate thread
-    //An Action is a function call that can be stored and called later
+    /// <summary>
+    ///  This function generates the required heightMap for the mesh at the given coordinate
+    /// </summary>
+    private MapData generateMapData(Vector2 centre) {
+
+        //Generate the height map from the noiseData values, we have an extra vertex on each side of the map that isn't rendered so that the mesh's edges,
+        //will face the correct orientation and line up with each other
+        float[,] noiseMap = ProceduralNoise.generateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.noiseScale, noiseData.seed, noiseData.octaves, noiseData.persistance, noiseData.lacunarity, centre + noiseData.offset, noiseData.normalizeMode);
+
+        //If we want to use a falloff map we subtract the given falloff value from the height value for each coordinate
+        if(terrainData.useFalloffMap) {
+
+            falloffMap = FalloffGenerator.generateFalloffMap(mapChunkSize + 2, falloffCurveA, falloffCurveB);
+
+            //Iterate over all coordinates in the map and take away the falloff value from the height value
+            for(int y = 0; y < mapChunkSize + 2; y++) {
+                for(int x = 0; x < mapChunkSize + 2; x++) {
+                    //All hights are between [0, 1] so we clamp the values to this range
+                    noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - falloffMap[x, y]);
+
+                }
+            }
+
+        }
+        //return the heightMap stored within the mapData variable
+        return new MapData(noiseMap);
+
+    }
+
+    /// <summary>
+    /// We utitlise threading to generate the MapData, this function is called and starts the generation of the map data in a seperate thread.
+    /// An Action is a function call that can be stored and called later
+    /// </summary>
+    /// <param name="centre">The centre point of the map</param>
+    /// <param name="callBack">The function to be called once the map data is generated</param>
     public void requestMapData(Vector2 centre, Action<MapData> callBack) {
 
         //Create the thread and in it run the mapDataThread() function
@@ -120,7 +167,11 @@ public class MapGenerator : MonoBehaviour {
 
     }
 
-    //This function is called in a seperate thread so that the game doesn't jam up as we generate lots of mapData objects
+    /// <summary>
+    /// This function is called in a seperate thread so that the game doesn't jam up as we generate lots of mapData objects
+    /// </summary>
+    /// <param name="centre">The centre point of the map</param>
+    /// <param name="callBack">The function to be called once the map data is generated</param>
     private void mapDataThread(Vector2 centre, Action<MapData> callBack) {
 
         //Generate the mapData, all functions called in a thread run in this thread
@@ -146,8 +197,13 @@ public class MapGenerator : MonoBehaviour {
 
     }
 
-    //This function is called in a sperate thread and just generates the meshData using the terrainData object, and then adds the data
-    //to the queue to be accessed from the main thread
+    /// <summary>
+    /// This function is called in a sperate thread and just generates the meshData using the terrainData object, and then adds the data
+    ///to the queue to be accessed from the main thread
+    /// </summary>
+    /// <param name="mapData">The height map</param>
+    /// <param name="levelOfDetail">The level of detail for the mesh</param>
+    /// <param name="callBack">The function to be called once the mesh is generated</param>
     private void meshDataThread(MapData mapData, int levelOfDetail, Action<MeshData> callBack) {
 
         MeshData meshData = MeshGenerator.generateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, levelOfDetail, terrainData.useFlatShading);
@@ -158,8 +214,10 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    //This function is run every physics update, and in it we collect any generated mapData and meshData from the other thread and use it's
-    //data in the map
+    /// <summary>
+    /// This function is run every physics update, and in it we collect any generated mapData and meshData from the other thread and use it's
+    ///data in the map
+    /// </summary>
     private void FixedUpdate() {
 
         //If there is data in the mapData thread queue, get all of it
@@ -190,34 +248,9 @@ public class MapGenerator : MonoBehaviour {
 
     }
 
-    //This function generates the required hightMap for the mesh at the given coordinate
-    private MapData generateMapData(Vector2 centre) {
-
-        //Generate the height map from the noiseData values, we have an extra vertex on each side of the map that isn't rendered so that the mesh's edges,
-        //will face the correct orientation and line up with each other
-        float[,] noiseMap = ProceduralNoise.generateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.noiseScale, noiseData.seed, noiseData.octaves, noiseData.persistance, noiseData.lacunarity, centre + noiseData.offset, noiseData.normalizeMode);
-
-        //If we want to use a falloff map we subtract the given falloff value from the height value for each coordinate
-        if(terrainData.useFalloffMap) {
-
-            falloffMap = FalloffGenerator.generateFalloffMap(mapChunkSize + 2, falloffCurveA, falloffCurveB);
-
-            //Iterate over all coordinates in the map and take away the falloff value from the height value
-            for(int y = 0; y < mapChunkSize + 2; y++) {
-                for(int x = 0; x < mapChunkSize + 2; x++) {
-                    //All hights are between [0, 1] so we calmp the values to this range
-                    noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - falloffMap[x, y]);
-
-                }
-            }
-
-        }
-        //return the heightMap stored within the mapData variable
-        return new MapData(noiseMap);
-
-    }
-
-    //OnValidate is called whenever the editor values are changed, thus we can regulate all the values whenever they are manipulated
+    /// <summary>
+    /// OnValidate() is called whenever the editor values are changed, thus we can regulate all the values whenever they are manipulated
+    /// </summary>
     private void OnValidate() {
 
         //If there is a terrainData/noiseData/textureData object, subscribe our onValuesUpdated() function to their

@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(UpdatableData), true)]
+[CustomEditor(typeof(UpdateableData), true)]
 public class UpdatableDataEditor : Editor {
 
     public override void OnInspectorGUI() {
 
         base.OnInspectorGUI();
 
-        UpdatableData updatableData = (UpdatableData) target;
+        UpdateableData updatableData = (UpdateableData) target;
 
         if(GUILayout.Button("Update")) {
             updatableData.notifyOfUpdatedValues();

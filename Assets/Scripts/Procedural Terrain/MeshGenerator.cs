@@ -4,15 +4,21 @@ using UnityEngine;
 
 public static class MeshGenerator {
 
-    //This function generates meshData for a mesh using the inputted heightmap (the map of all height values for the mesh), the heightMultiplier (to scale up the heights of the mesh),
-    //The Animation curve gives an alternate height value for the each heightMap value to fit the terrain better, levelOfDetail affects how many vertices are in the mesh, the
-    //lower the LOD!... and useFlatShading allows each triangle to have it's own 3 vertices so the entire triangle's face is lit uniformly
+    /// <summary>
+    /// This function generates meshData for a mesh using the inputed data
+    /// </summary>
+    /// <param name="borderedSizeMap">the map of all height values for the mesh</param>
+    /// <param name="heighMultiplier">to scale up the heights of the mesh</param>
+    /// <param name="_borderedSizeCurve">The Animation curve gives an alternate height value for the each heightMap value to fit the terrain better</param>
+    /// <param name="levelOfDetail">levelOfDetail affects how many vertices are in the mesh</param>
+    /// <param name="useFlatShading">useFlatShading allows each triangle to have it's own 3 vertices so the entire triangle's face is lit uniformly</param>
+    /// <returns></returns>
     public static MeshData generateTerrainMesh(float[,] borderedSizeMap, float heighMultiplier, AnimationCurve _borderedSizeCurve, int levelOfDetail, bool useFlatShading) {
 
         //Create a copy of the AnimationCurve so that it can be read across multiple threads
         AnimationCurve borderedSizeCurve = new AnimationCurve(_borderedSizeCurve.keys);
         //The number of verices that are skipped over, if it is 1, we are at full detail
-        //If the LOd = 0, the increment is 1, otherwise it's twice the supplied LOD
+        //If the Lod = 0, the increment is 1, otherwise it's twice the supplied LOD
         int meshSimplificationIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail * 2;
 
         //The assumption is that the heightMap is square, so the length = width
@@ -26,7 +32,7 @@ public static class MeshGenerator {
         //divide by 2 to get the centre of the coordinate, -2 for x because otherwise it would be centred around the wrong axis
         float topLeftX = (meshSizeUnsimplified - 1) / -2f;
         float topLeftZ = (meshSizeUnsimplified - 1) / 2f;
-        
+
         //The number of vertices that would be along the edge of the mesh, the higher the simplification increment, the less vertices
         int verticesPerLine = (meshSize - 1) / meshSimplificationIncrement + 1;
         //Create a new empty meshData with the given number of vertices in a line and whether or not each triangle shares vertices or has it's own unique ones
@@ -49,7 +55,7 @@ public static class MeshGenerator {
                 if(isBorderVertex) {
                     vertexIndicesMap[x, y] = borderVertexIndex;
                     borderVertexIndex--;
-                //Otherwise we use normal vertices and increment that count
+                    //Otherwise we use normal vertices and increment that count
                 } else {
                     vertexIndicesMap[x, y] = meshVertexIndex;
                     meshVertexIndex++;

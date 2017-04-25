@@ -1,10 +1,18 @@
 ﻿
 using UnityEngine;
 
-//This static class contains function to generate textures for the given height maps or colour maps
+/// <summary>
+///This static class contains function to generate textures for the given height maps or colour maps
+/// </summary>
 public static class TextureGenerator {
 
-    //Genertes a coloured texture from the given colur map, the texture is of size width * height
+    /// <summary>
+    /// Genertes a coloured texture from the given colur map, the texture is of size width * height
+    /// </summary>
+    /// <param name="colourMap"></param>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <returns></returns>
     public static Texture2D textureFromColourMap(Color[] colourMap, int width, int height) {
 
         //Create a new blank texture of the given size
@@ -24,7 +32,11 @@ public static class TextureGenerator {
 
     }
 
-    //Generate a black and white noise map from the inputed height map
+    /// <summary>
+    /// Generate a black and white noise map from the inputed height map
+    /// </summary>
+    /// <param name="heightMap"></param>
+    /// <returns></returns>
     public static Texture2D textureFromHeightMap(float[,] heightMap) {
 
         //Get the dimensions from the array

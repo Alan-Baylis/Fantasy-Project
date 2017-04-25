@@ -70,6 +70,9 @@ public class EndlessTerrain : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Recalculate which terrain chunks should be rendered and which ones shouldn't be
+    /// </summary>
     public void updateVisibleChunks() {
 
         //Iterate over all current meshes visible in the game and make them invisible
@@ -107,7 +110,9 @@ public class EndlessTerrain : MonoBehaviour {
 
     }
 
-    //This class represents each chunk in the game and stores data pertaining to it
+    /// <summary>
+    /// This class represents each chunk in the game and stores data pertaining to it
+    /// </summary>
     public class TerrainChunk {
 
         //The 2d position of the chunk in the game as referenced in the dictionary above
@@ -140,8 +145,15 @@ public class EndlessTerrain : MonoBehaviour {
         //Start the previous lod index at -1, since it is impossible so it is guaranted to be atleast initially updated
         private int previousLODIndex = -1;
 
-        //The constructor takes in the position of it in the game, it's dimensions as a square, the possible Lod detail levels for future reference, the material to be applied to the mesh for rendering
-        //And the gameObject that it is going to be nested under in the editor hierarchy
+        /// <summary>
+        /// The constructor takes in the position of it in the game, it's dimensions as a square, the possible Lod detail levels for future reference, the material to be applied to the mesh for rendering
+        ///And the gameObject that it is going to be nested under in the editor hierarchy
+        /// </summary>
+        /// <param name="coord"></param>
+        /// <param name="size"></param>
+        /// <param name="detailLevels"></param>
+        /// <param name="material"></param>
+        /// <param name="parent"></param>
         public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, Material material, Transform parent) {
 
             //Assign the LODInfo array for future reference
@@ -194,7 +206,10 @@ public class EndlessTerrain : MonoBehaviour {
 
         }
 
-        //This function is called once the mapData for ths chunk has been fully generated in another thread
+        /// <summary>
+        ///This function is called once the mapData for ths chunk has been fully generated in another thread
+        /// </summary>
+        /// <param name="mapData"></param>
         public void onMapDataReceived(MapData mapData) {
 
             //Save a reference to the generated mapData
@@ -206,7 +221,9 @@ public class EndlessTerrain : MonoBehaviour {
 
         }
 
-        //This function handles the switching of lod for the mesh of the chunk as the player moves around
+        /// <summary>
+        /// This function handles the switching of lod for the mesh of the chunk as the player moves around
+        /// </summary>
         public void updateTerrainChunk() {
 
             //We can't update the terrain if we don't have any mapData to work off

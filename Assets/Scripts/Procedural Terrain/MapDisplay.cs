@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//This script stores references to a plane and mesh GameObject that are used to preview the map in the editor while not in play mode
+/// <summary>
+/// This script stores references to a plane and mesh GameObject that are used to preview the map in the editor while not in play mode
+/// </summary>
 public class MapDisplay : MonoBehaviour {
 
     //A reference to the renderer for the plane GameObject, used to render 2D textures
@@ -25,7 +27,10 @@ public class MapDisplay : MonoBehaviour {
 
     }
 
-    //The function applies the mesh from meshData to the preview mesh GameObject in the editor
+    /// <summary>
+    /// The function applies the mesh from meshData to the preview mesh GameObject in the editor
+    /// </summary>
+    /// <param name="meshData"></param>
     public void drawMesh(MeshData meshData) {
 
         //Generate the mesh from the meshData information and apply that mesh to the mesh GameObject, the reason we don't generate the actual mesh

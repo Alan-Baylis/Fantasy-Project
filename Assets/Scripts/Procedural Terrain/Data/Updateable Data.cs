@@ -11,7 +11,9 @@ public class UpdateableData : ScriptableObject {
     //Whether or not we auto call the onValuesUpdated() event or does it only happen when the user chooses
     public bool autoUpdate;
 
-    //This function gets called by the Unity Editor whenever it is updated
+    /// <summary>
+    /// This function gets called by the Unity Editor whenever it is updated
+    /// </summary>
     public void notifyOfUpdatedValues() {
 
         //Unsubscribe thhis function from the update event in UnityEditor, so we aren't subscribed multiple times
@@ -24,7 +26,9 @@ public class UpdateableData : ScriptableObject {
 
     }
 
-    //OnValidate is called whenever a value is changed in an object in the editor
+    /// <summary>
+    /// OnValidate is called whenever a value is changed in an object in the editor
+    /// </summary>
     protected virtual void OnValidate() {
         //If we want to auto update any changes made, then subscibe the notifyOfUpdatedValeus() function to the update event in the UnityEditor
         if(autoUpdate) {
