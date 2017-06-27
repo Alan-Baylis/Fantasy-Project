@@ -69,6 +69,7 @@ public class ChunkColumn : WorldObject {
 
     //recalculateRendering() re sets the column's texture to the new heighest block in the column 
     public void recalculateRendering() {
+
         //Recalculate which block needs to be rendered
         Block block = getHighestRenderableBlock();
 
@@ -76,6 +77,9 @@ public class ChunkColumn : WorldObject {
         if(spriteRenderer == null) {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
+
+        spriteRenderer.enabled = isRendered();
+
         // Get the sprite for this block
         Sprite blockSprite = block.getSprite(getDirection());
         //Set the sprite to the sprite renderer
