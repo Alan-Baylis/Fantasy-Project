@@ -256,3 +256,8 @@ Assembly-CSharp.Editor.csproj
 /Assets/.dropbox.attr
 /Assembly-CSharp-Editor.csproj
 /Assembly-CSharp.csproj
+.meta
+.csproj
+.sln
+
+
